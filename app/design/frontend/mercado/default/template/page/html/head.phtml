@@ -1,0 +1,106 @@
+<script type="text/javascript">var slide_on=false;</script>
+<?php 
+function themeOptions ($themeOption) {
+	switch ($themeOption) {
+     case 'additionalLink':
+	   return Mage::getStoreConfig('mygeneral/generaloptions/additional_nav');
+	 break;
+     case 'use_cufon':
+       return (Mage::getStoreConfig('mygeneral/generaloptions/use_cufon') == 1);
+	 break;
+     case 'topbanner':
+	   return Mage::getStoreConfig('mygeneral/generaloptions/topbanner');
+	 break;     
+     case 'phones':
+	   return Mage::getStoreConfig('mygeneral/generaloptions/phones');
+	 break;
+     case 'additionalLinkUrl':
+	   return Mage::getStoreConfig('mygeneral/generaloptions/additional_nav_href');
+	 break;
+     case 'use_share':
+	   return (Mage::getStoreConfig('mygeneral/share/use_share') == 1);
+	 break;
+     case 'share_code':
+	   return Mage::getStoreConfig('mygeneral/share/share_code');
+	 break;
+     case 'use_slideshow':
+	   return (Mage::getStoreConfig('mygeneral/slideshow/use_slideshow') == 1);
+	 break;
+     case 'speed':
+	   return Mage::getStoreConfig('mygeneral/slideshow/speed');
+	 break;
+     case 'use_zoom':
+	   return (Mage::getStoreConfig('mygeneral/productpage/use_zoom') == 1);
+	 break;
+     case 'use_carousel':
+	   return (Mage::getStoreConfig('mygeneral/productpage/use_carousel') == 1);
+	 break;
+     default:
+        return Mage::getStoreConfig($themeOption);
+     break;
+     
+	}
+}
+?>
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
+<title><?php echo $this->getTitle() ?></title>
+<meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
+<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<!--[if lt IE 7]>
+<script type="text/javascript">
+//<![CDATA[
+    var BLANK_URL = '<?php echo $this->helper('core/js')->getJsUrl('blank.html') ?>';
+    var BLANK_IMG = '<?php echo $this->helper('core/js')->getJsUrl('spacer.gif') ?>';
+//]]>
+</script>
+<![endif]-->
+
+<?php echo $this->getCssJsHtml() ?>
+<?php echo $this->getChildHtml() ?>
+<?php echo $this->helper('core/js')->getTranslatorScript() ?>
+<?php echo $this->getIncludes() ?>
+<!-- ZOOM -->
+<?php $use_zoom = themeOptions('use_zoom'); ?>
+<?php if($use_zoom): ?>
+    <script type="text/javascript" src="<?php echo $this->getJsUrl('zoom/easyzoom.js'); ?>"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/easyzoom.css'); ?>" media="screen"/>
+<?php endif; ?>
+
+<!-- CUFON -->
+<?php $use_cufon = themeOptions('use_cufon'); ?>
+<?php $use_slideshow = themeOptions('use_slideshow'); ?>
+<?php if($use_cufon): ?>
+    <script type="text/javascript" src="<?php echo $this->getJsUrl('cufon/cufon-yui.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getJsUrl('cufon/Century_Gothic_400.font.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getJsUrl('cufon/cufon-replace.js'); ?>"></script>
+<?php endif; ?>
+
+<?php if($use_slideshow): ?>
+<?php $speed = themeOptions('speed'); ?>
+<script type="text/javascript">
+    if(slide_on){
+        jQuery(document).ready(function (){
+        	jQuery('.pix_diapo').diapo({
+        	   fx: 'scrollHorz',
+               thumbs:false,
+               loader:'none',
+               time: <?php echo ($speed) ? $speed : '3000'  ?>
+        	});
+            
+        });  
+    }
+</script>
+<?php endif; ?>
+
+<script type="text/javascript">
+        jQuery(document).ready(function (){
+        	jQuery('.toolbar').jqTransform({imgPath:'<?php echo $this->getSkinUrl('images/jqforms/'); ?>'});
+        	jQuery('.limiter').jqTransform({imgPath:'<?php echo $this->getSkinUrl('images/jqforms/'); ?>'});
+        });  
+</script>
+<!--[if IE 7]>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/ie7.css'); ?>" media="screen"/>
+<![endif]-->
